@@ -1,6 +1,6 @@
 import { Readable } from 'node:stream'
-import { blogListUrl, infoUrl, picDownloadUrl } from './url'
-import type { UserInfo } from './type'
+import { blogListUrl, commentsUrl, infoUrl, picDownloadUrl } from './url'
+import type { BlogList, Comments, CommentsParam, UserInfo } from './type'
 
 const headers = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
@@ -31,7 +31,7 @@ export function getInfo(url: string): Promise<UserInfo> {
     }).catch(err => reject(err))
   })
 }
-export function getList(url: string, page = 1, feature = 1) {
+export function getList(url: string, page = 1, feature = 1): Promise<BlogList> {
   return new Promise((resolve, reject) => {
     const id = getId(url)
     if (!id)
@@ -74,4 +74,16 @@ function fetchStream(url: string) {
 }
 export function download(pid: string) {
   return fetchStream(picDownloadUrl(pid))
+}
+export function comments(param: CommentsParam): Promise<Comments> {
+  return new Promise((resolve, reject) => {
+    fetch(commentsUrl(param), { credentials: 'include', headers }).then((res) => {
+      if (res.redirected)
+        return reject(Error('request failed cookie failed'))
+
+      return res.json()
+    }).then((res) => {
+      return resolve(res)
+    }).catch(err => reject(err))
+  })
 }

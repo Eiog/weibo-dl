@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { download, getId, getInfo, getList, validateUrl } from '../src/index'
+import { comments, download, getId, getInfo, getList, validateUrl } from '../src/index'
 
 const testUrl = 'fff https://weibo.com/u/5855610888 分'
 const testPid = '006ohxSUly1hmhsxti98gj3340590x6u'
@@ -18,5 +18,8 @@ describe('test', () => {
   })
   it('download', async () => {
     expect(await download(testPid)).toBeTypeOf('object')
+  })
+  it('comments', async () => {
+    expect(await comments({ id: 4999555825533812, uid: 5855610888 })).toBeTypeOf('object')
   })
 })

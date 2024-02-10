@@ -1,7 +1,7 @@
 {
   "name": "weibo-dl",
   "type": "module",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0",
   "packageManager": "pnpm@7.18.0",
   "description": "",
   "author": "Eiog",
